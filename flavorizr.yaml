@@ -1,0 +1,30 @@
+app:
+  ios:
+    bundleId: com.example.checkListApp
+  android:
+    applicationId: com.example.check_list_app
+flavors:
+  dev:
+    app:
+      name: "MyApp Dev"
+      icon: "assets/icons/app_icon_dev.png"
+    android:
+      applicationId: com.example.check_list_app.dev
+    ios:
+      bundleId: com.example.checkListApp.dev
+  prod:
+    app:
+      name: "MyApp Prod"
+      icon: "assets/icons/app_icon_prod.png"
+    android:
+      applicationId: com.example.check_list_app.prod
+    ios:
+      bundleId: com.example.checkListApp.prod
+  staging:
+    app:
+      name: "MyApp Staging"
+      icon: "assets/icons/app_icon_staging.png"
+    android:
+      applicationId: com.example.check_list_app.staging
+    ios:
+      bundleId: com.example.checkListApp.staging
