@@ -1,4 +1,4 @@
-name: Flutter SonarQube Analysis
+name: SonarQube Analysis
 
 on:
   push:
@@ -9,42 +9,48 @@ on:
       - main
 
 jobs:
-  build:
+  sonarQubeAnalysis:
     runs-on: ubuntu-latest
 
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.22.2'  # Specify the Flutter version
-        channel: 'stable'
-        architecture: 'x64'
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: "adopt"
+          java-version: "11"
 
-    - name: Install dependencies
-      run: flutter pub get
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.22.2"
+          channel: "stable"
 
-    # - name: Run tests with coverage
-    #   run: |
-    #     flutter test --coverage
-    #     genhtml coverage/lcov.info -o coverage/
+      - name: Install dependencies
+        run: flutter pub get
 
-    - name: Install SonarQube scanner
-      run: |
-        wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
-        unzip sonar-scanner-cli-4.6.2.2472-linux.zip
-        mv sonar-scanner-4.6.2.2472-linux sonar-scanner
-        export PATH=$PATH:`pwd`/sonar-scanner/bin
+      # - name: Run tests with coverage
+      #   run: flutter test --coverage
 
-    - name: Run SonarQube analysis
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: |
-        sonar-scanner \
-          -Dsonar.projectKey=check-list-app \
-          -Dsonar.sources=. \
-          -Dsonar.host.url=https://152.42.216.45 \
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      # - name: Generate Dart analysis report
+      #   run: dartanalyzer --format json --no-hints lib > build/reports/dart/dart-report.json
 
+      - name: Install SonarScanner
+        run: |
+          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+          unzip sonar-scanner-cli-4.6.2.2472-linux.zip -d $HOME/
+          echo 'export PATH="$HOME/sonar-scanner-4.6.2.2472-linux/bin:$PATH"' >> $HOME/.bashrc
+          source $HOME/.bashrc
+
+      - name: Verify SonarScanner Installation
+        run: sonar-scanner --version
+
+      - name: Run SonarScanner
+        run: sonar-scanner
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
