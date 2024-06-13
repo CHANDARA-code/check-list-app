@@ -38,11 +38,13 @@ class HomeScreen extends HookConsumerWidget {
             Row(
               children: [
                 CircularProgressIndicator(
-                    value: tasks.where((task) => task.completed).length /
-                        (tasks.length == 0 ? 1 : tasks.length)),
+                  value: tasks.where((task) => task.completed).length /
+                      (tasks.length == 0 ? 1 : tasks.length),
+                ),
                 const SizedBox(width: 10),
                 Text(
-                    '${tasks.where((task) => task.completed).length}/${tasks.length} Complete'),
+                  '${tasks.where((task) => task.completed).length}/${tasks.length} Complete',
+                ),
               ],
             ),
             const AppTabs(),
@@ -62,7 +64,9 @@ class HomeScreen extends HookConsumerWidget {
       isScrollControlled: true,
       // backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return AnimatedBottomSheet(widgetBottomSheet: FilterOptions());
+        return AnimatedBottomSheet(
+          widgetBottomSheet: FilterOptions(),
+        );
       },
     );
   }
