@@ -5,7 +5,7 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:check_list_app/components/flavor_banner.dart';
+import 'package:check_list_app/widget/flavor_banner.dart';
 import 'package:check_list_app/config/app_config.dart';
 import 'package:check_list_app/screens/app.dart';
 import 'package:flutter/material.dart';

@@ -11,5 +11,6 @@
   "[dart]": {
     "editor.formatOnSave": true,
     "editor.formatOnType": true
-  }
+  },
+  "cmake.ignoreCMakeListsMissing": true
 }
