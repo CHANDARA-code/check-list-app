@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DetailsScreen extends HookConsumerWidget {
+  const DetailsScreen({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tasks = ref.watch(taskProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Weekly Groceries'),
+        title: Text('Add Task'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

@@ -51,7 +51,6 @@ class HomeScreen extends HookConsumerWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      // backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return AnimatedBottomSheet(
           widgetBottomSheet: FilterOptions(),
