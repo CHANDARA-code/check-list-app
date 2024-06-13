@@ -2,6 +2,7 @@ import 'package:check_list_app/notifier/task/task_notifier.dart';
 import 'package:check_list_app/screens/home/tabs/app_tab.dart';
 import 'package:check_list_app/widget/animat_bottom_sheet.dart';
 import 'package:check_list_app/widget/filter_option.dart';
+import 'package:check_list_app/widget/progress_overal.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -29,25 +30,13 @@ class HomeScreen extends HookConsumerWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: const Padding(
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Progress Indicator
-            Row(
-              children: [
-                CircularProgressIndicator(
-                  value: tasks.where((task) => task.completed).length /
-                      (tasks.length == 0 ? 1 : tasks.length),
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  '${tasks.where((task) => task.completed).length}/${tasks.length} Complete',
-                ),
-              ],
-            ),
-            const AppTabs(),
+            ProgressOverall(),
+            AppTabs(),
           ],
         ),
       ),

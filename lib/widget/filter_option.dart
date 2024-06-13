@@ -89,16 +89,20 @@ class FilterOptions extends HookConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AppButton(
+          iconData: Icons.delete_forever_sharp,
+          label: "Clear",
+          backgroundColor: Colors.red, // Background color
+          foregroundColor: Colors.white, // Text color
           onPressed: () {
             taskNotifier.onClearFilter();
             Navigator.of(context).pop();
           },
-          icon: Icons.delete_forever_sharp,
-          title: "Clear",
-          backgroundColor: Colors.white,
-          iconColor: Colors.red,
         ),
         AppButton(
+          iconData: Icons.change_circle_outlined,
+          label: "Save",
+          backgroundColor: Colors.blueGrey, // Background color
+          foregroundColor: Colors.white, // Text color
           onPressed: () {
             taskNotifier.applyFilters(
               selectedPriority.value,
@@ -108,10 +112,6 @@ class FilterOptions extends HookConsumerWidget {
             );
             Navigator.of(context).pop();
           },
-          icon: Icons.change_circle_outlined,
-          title: "Save",
-          backgroundColor: Colors.white,
-          iconColor: Colors.blue.shade600,
         ),
       ],
     );

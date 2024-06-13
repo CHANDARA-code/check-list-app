@@ -4,6 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class DashboardScreen extends HookConsumerWidget {
+  const DashboardScreen({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tasks = ref.watch(taskProvider);
@@ -37,54 +39,59 @@ class DashboardScreen extends HookConsumerWidget {
       appBar: AppBar(
         title: Text('Dashboard'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SfCircularChart(
-              title: ChartTitle(text: 'Tasks by Priority'),
-              legend: Legend(isVisible: true),
-              series: <CircularSeries>[
-                PieSeries<_ChartData, String>(
-                  dataSource: priorityData,
-                  xValueMapper: (_ChartData data, _) => data.category,
-                  yValueMapper: (_ChartData data, _) => data.count,
-                  dataLabelMapper: (_ChartData data, _) => '${data.category}: ${data.count}',
-                  dataLabelSettings: DataLabelSettings(isVisible: true),
-                ),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: 300,
+              child: SfCircularChart(
+                title: ChartTitle(text: 'Tasks by Priority'),
+                legend: Legend(isVisible: true),
+                series: <CircularSeries>[
+                  PieSeries<_ChartData, String>(
+                    dataSource: priorityData,
+                    xValueMapper: (_ChartData data, _) => data.category,
+                    yValueMapper: (_ChartData data, _) => data.count,
+                    dataLabelMapper: (_ChartData data, _) => '${data.category}: ${data.count}',
+                    dataLabelSettings: DataLabelSettings(isVisible: true),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: SfCircularChart(
-              title: ChartTitle(text: 'Tasks by Status'),
-              legend: Legend(isVisible: true),
-              series: <CircularSeries>[
-                PieSeries<_ChartData, String>(
-                  dataSource: statusData,
-                  xValueMapper: (_ChartData data, _) => data.category,
-                  yValueMapper: (_ChartData data, _) => data.count,
-                  dataLabelMapper: (_ChartData data, _) => '${data.category}: ${data.count}',
-                  dataLabelSettings: DataLabelSettings(isVisible: true),
-                ),
-              ],
+            Container(
+              height: 300,
+              child: SfCircularChart(
+                title: ChartTitle(text: 'Tasks by Status'),
+                legend: Legend(isVisible: true),
+                series: <CircularSeries>[
+                  PieSeries<_ChartData, String>(
+                    dataSource: statusData,
+                    xValueMapper: (_ChartData data, _) => data.category,
+                    yValueMapper: (_ChartData data, _) => data.count,
+                    dataLabelMapper: (_ChartData data, _) => '${data.category}: ${data.count}',
+                    dataLabelSettings: DataLabelSettings(isVisible: true),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: SfCircularChart(
-              title: ChartTitle(text: 'Tasks by Priority and Status'),
-              legend: Legend(isVisible: true),
-              series: <CircularSeries>[
-                PieSeries<_ChartData, String>(
-                  dataSource: priorityAndStatusData,
-                  xValueMapper: (_ChartData data, _) => data.category,
-                  yValueMapper: (_ChartData data, _) => data.count,
-                  dataLabelMapper: (_ChartData data, _) => '${data.category}: ${data.count}',
-                  dataLabelSettings: DataLabelSettings(isVisible: true),
-                ),
-              ],
+            Container(
+              height: 300,
+              child: SfCircularChart(
+                title: ChartTitle(text: 'Tasks by Priority and Status'),
+                legend: Legend(isVisible: true),
+                series: <CircularSeries>[
+                  PieSeries<_ChartData, String>(
+                    dataSource: priorityAndStatusData,
+                    xValueMapper: (_ChartData data, _) => data.category,
+                    yValueMapper: (_ChartData data, _) => data.count,
+                    dataLabelMapper: (_ChartData data, _) => '${data.category}: ${data.count}',
+                    dataLabelSettings: DataLabelSettings(isVisible: true),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

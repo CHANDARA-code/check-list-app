@@ -26,6 +26,11 @@ class TaskNotifier extends StateNotifier<List<TaskModel>> {
     _saveToStorage();
   }
 
+  void removeTask(TaskModel task) {
+    state = state.where((t) => t != task).toList();
+    _saveToStorage();
+  }
+
   void applyFilters(String priority, String status, DateTime? date,
       DateTimeRange? dateRange) {
     // Implement the filter logic here
