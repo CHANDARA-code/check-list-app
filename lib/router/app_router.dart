@@ -1,7 +1,7 @@
 import 'package:check_list_app/screens/dashboard/dashboard_screen.dart';
 import 'package:check_list_app/screens/detail/details_screen.dart';
 import 'package:check_list_app/screens/home/home_screen.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
@@ -15,15 +15,51 @@ class AppRouter {
       routes: [
         GoRoute(
           path: '/',
-          builder: (context, state) => HomeScreen(),
+          pageBuilder: (context, state) {
+            return CustomTransitionPage<void>(
+              key: state.pageKey,
+              child: const HomeScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+            );
+          },
         ),
         GoRoute(
           path: '/details',
-          builder: (context, state) => DetailsScreen(),
+          pageBuilder: (context, state) {
+            return CustomTransitionPage<void>(
+              key: state.pageKey,
+              child: DetailsScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+            );
+          },
         ),
         GoRoute(
           path: '/dashboard',
-          builder: (context, state) => DashboardScreen(),
+          pageBuilder: (context, state) {
+            return CustomTransitionPage<void>(
+              key: state.pageKey,
+              child: DashboardScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+            );
+          },
         ),
       ],
     );
