@@ -29,7 +29,7 @@ class TaskItem extends HookConsumerWidget {
               : Color(int.parse('0xff${task.priority.color.substring(1)}')),
         ),
         title: Text(task.name),
-        subtitle: Text('${task.priority.name} • ${task.ago}'),
+        subtitle: Text('${task.priority.name} • ${task.agoCreated}'),
         onTap: () => ref.read(taskProvider.notifier).toggleTaskCompletion(task),
         onLongPress: () {
           showDialog(

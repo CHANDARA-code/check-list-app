@@ -9,7 +9,7 @@ class CompletedTab extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tasks = ref.watch(taskProvider);
+    final tasks = ref.watch(taskProvider).tasks;
     final tasksComplete = tasks.where((task) => task.completed).toList();
     if (tasksComplete == null || tasksComplete.isEmpty) {
       return const EmptyWidget();

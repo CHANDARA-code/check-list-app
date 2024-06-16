@@ -9,7 +9,7 @@ class AllTab extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tasks = ref.watch(taskProvider);
+    final tasks = ref.watch(taskProvider).tasks;
     if (tasks == null || tasks.isEmpty) {
       return Center(
         child: Column(

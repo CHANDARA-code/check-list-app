@@ -9,7 +9,7 @@ class ProgressOverall extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tasks = ref.watch(taskProvider);
+    final tasks = ref.watch(taskProvider).tasks;
     double percentComplete = tasks.isEmpty
         ? 0
         : tasks.where((task) => task.completed).length / tasks.length;

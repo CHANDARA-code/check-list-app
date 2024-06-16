@@ -12,7 +12,7 @@ class HomeScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tasks = ref.watch(taskProvider);
+    final tasks = ref.watch(taskProvider).tasks;
 
     return Scaffold(
       appBar: AppBar(

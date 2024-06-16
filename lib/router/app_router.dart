@@ -1,3 +1,4 @@
+import 'package:check_list_app/model/task_model/task_model.dart';
 import 'package:check_list_app/screens/dashboard/dashboard_screen.dart';
 import 'package:check_list_app/screens/detail/details_screen.dart';
 import 'package:check_list_app/screens/home/home_screen.dart';
@@ -32,9 +33,12 @@ class AppRouter {
         GoRoute(
           path: '/details',
           pageBuilder: (context, state) {
+            final TaskModel? task = state.extra as TaskModel?;
             return CustomTransitionPage<void>(
               key: state.pageKey,
-              child: DetailsScreen(),
+              child: DetailsScreen(
+                originalTask: task,
+              ),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 return FadeTransition(

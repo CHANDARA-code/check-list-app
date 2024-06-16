@@ -8,15 +8,18 @@ class DashboardScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tasks = ref.watch(taskProvider);
+    final tasks = ref.watch(taskProvider).tasks;
 
     // Group tasks by priority
     final groupedTasksByPriority = <String, int>{};
     for (var task in tasks) {
-      groupedTasksByPriority.update(task.priority.name, (value) => value + 1, ifAbsent: () => 1);
+      groupedTasksByPriority.update(task.priority.name, (value) => value + 1,
+          ifAbsent: () => 1);
     }
 
-    final priorityData = groupedTasksByPriority.entries.map((entry) => _ChartData(entry.key, entry.value)).toList();
+    final priorityData = groupedTasksByPriority.entries
+        .map((entry) => _ChartData(entry.key, entry.value))
+        .toList();
 
     // Group tasks by completion status
     final groupedTasksByStatus = <String, int>{
@@ -24,16 +27,22 @@ class DashboardScreen extends HookConsumerWidget {
       'Completed': tasks.where((task) => task.completed).length,
     };
 
-    final statusData = groupedTasksByStatus.entries.map((entry) => _ChartData(entry.key, entry.value)).toList();
+    final statusData = groupedTasksByStatus.entries
+        .map((entry) => _ChartData(entry.key, entry.value))
+        .toList();
 
     // Group tasks by priority and completion status
     final groupedTasksByPriorityAndStatus = <String, int>{};
     for (var task in tasks) {
-      String key = '${task.priority.name} - ${task.completed ? "Completed" : "Todo"}';
-      groupedTasksByPriorityAndStatus.update(key, (value) => value + 1, ifAbsent: () => 1);
+      String key =
+          '${task.priority.name} - ${task.completed ? "Completed" : "Todo"}';
+      groupedTasksByPriorityAndStatus.update(key, (value) => value + 1,
+          ifAbsent: () => 1);
     }
 
-    final priorityAndStatusData = groupedTasksByPriorityAndStatus.entries.map((entry) => _ChartData(entry.key, entry.value)).toList();
+    final priorityAndStatusData = groupedTasksByPriorityAndStatus.entries
+        .map((entry) => _ChartData(entry.key, entry.value))
+        .toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -52,7 +61,8 @@ class DashboardScreen extends HookConsumerWidget {
                     dataSource: priorityData,
                     xValueMapper: (_ChartData data, _) => data.category,
                     yValueMapper: (_ChartData data, _) => data.count,
-                    dataLabelMapper: (_ChartData data, _) => '${data.category}: ${data.count}',
+                    dataLabelMapper: (_ChartData data, _) =>
+                        '${data.category}: ${data.count}',
                     dataLabelSettings: DataLabelSettings(isVisible: true),
                   ),
                 ],
@@ -68,7 +78,8 @@ class DashboardScreen extends HookConsumerWidget {
                     dataSource: statusData,
                     xValueMapper: (_ChartData data, _) => data.category,
                     yValueMapper: (_ChartData data, _) => data.count,
-                    dataLabelMapper: (_ChartData data, _) => '${data.category}: ${data.count}',
+                    dataLabelMapper: (_ChartData data, _) =>
+                        '${data.category}: ${data.count}',
                     dataLabelSettings: DataLabelSettings(isVisible: true),
                   ),
                 ],
@@ -84,7 +95,8 @@ class DashboardScreen extends HookConsumerWidget {
                     dataSource: priorityAndStatusData,
                     xValueMapper: (_ChartData data, _) => data.category,
                     yValueMapper: (_ChartData data, _) => data.count,
-                    dataLabelMapper: (_ChartData data, _) => '${data.category}: ${data.count}',
+                    dataLabelMapper: (_ChartData data, _) =>
+                        '${data.category}: ${data.count}',
                     dataLabelSettings: DataLabelSettings(isVisible: true),
                   ),
                 ],

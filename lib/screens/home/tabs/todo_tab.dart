@@ -9,7 +9,7 @@ class TodoTab extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tasks = ref.watch(taskProvider);
+    final tasks = ref.watch(taskProvider).tasks;
     final tasksTodo = tasks.where((task) => !task.completed).toList();
     if (tasksTodo == null || tasksTodo.isEmpty) {
       return const EmptyWidget();

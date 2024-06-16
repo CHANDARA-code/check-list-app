@@ -3,6 +3,7 @@ import 'package:check_list_app/widget/app_button.dart';
 import 'package:check_list_app/widget/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class TaskOptionsDialog extends HookConsumerWidget {
@@ -44,8 +45,8 @@ class TaskOptionsDialog extends HookConsumerWidget {
                     backgroundColor: Colors.blue, // Background color
                     foregroundColor: Colors.white, // Text color
                     onPressed: () {
-                      Navigator.of(context)
-                          .pop(); // Example action: Close the dialog
+                      context.push('/details', extra: task);
+                      Navigator.of(context).pop();
                     },
                   ),
                   AppButton(
@@ -61,8 +62,7 @@ class TaskOptionsDialog extends HookConsumerWidget {
                         },
                       ).then((value) {
                         if (value == true) {
-                          Navigator.of(context).pop(
-                              true); // Close TaskOptionsDialog if delete is confirmed
+                          Navigator.of(context).pop(true);
                         }
                       });
                     },
