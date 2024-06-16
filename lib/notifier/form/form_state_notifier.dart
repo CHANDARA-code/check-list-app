@@ -7,11 +7,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FormStateNotifier extends ChangeNotifier {
   FormStateModel _formState = FormStateModel();
+  final FormStateModel formState1 = FormStateModel();
+  FormAction _formAction = FormAction.ADD;
   final Ref ref;
 
   FormStateNotifier(this.ref);
 
   FormStateModel get formState => _formState;
+
+  FormAction get formAction => _formAction;
 
   void updateTitle(String title) {
     _formState = _formState.copyWith(title: title);
@@ -28,6 +32,10 @@ class FormStateNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void perpuseNavigate(FormAction purpose) {
+    _formAction = purpose;
+  }
+
   void saveForm(BuildContext context) {
     if (_formState.title.isNotEmpty &&
         _formState.description.isNotEmpty &&
@@ -37,7 +45,7 @@ class FormStateNotifier extends ChangeNotifier {
         name: _formState.title,
         completed: false,
         priority: PriorityModel(
-          id: '1',
+          id: getPriorityId(_formState.priority),
           name: _formState.priority,
           color: priorityColors[_formState.priority] ?? '#000000',
         ),
@@ -49,14 +57,8 @@ class FormStateNotifier extends ChangeNotifier {
 
       ref.read(taskProvider.notifier).addTask(task);
 
-      _formState = _formState.copyWith(
-        timeUpdated: now,
-        timeCreated: _formState.timeCreated ?? now,
-      );
-      _formState = FormStateModel();
-      notifyListeners();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Form saved')));
+      resetFormState(now);
+      showSnackBar(context, 'Form saved');
       Navigator.of(context).pop(); // Navigate back to the previous screen
     }
   }
@@ -69,19 +71,18 @@ class FormStateNotifier extends ChangeNotifier {
       final updatedTask = originalTask.copyWith(
         name: _formState.title,
         priority: PriorityModel(
-            id: '1',
-            name: _formState.priority,
-            color: priorityColors[_formState.priority] ?? '#000000'),
+          id: getPriorityId(_formState.priority),
+          name: _formState.priority,
+          color: priorityColors[_formState.priority] ?? '#000000',
+        ),
         description: _formState.description,
         timeUpdated: now,
       );
 
       ref.read(taskProvider.notifier).updateTask(updatedTask);
 
-      _formState = FormStateModel();
-      notifyListeners();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Task updated')));
+      resetFormState();
+      showSnackBar(context, 'Task updated');
       Navigator.of(context).pop(); // Navigate back to the previous screen
     }
   }
@@ -96,6 +97,33 @@ class FormStateNotifier extends ChangeNotifier {
     );
     notifyListeners();
   }
+
+  void resetFormState([DateTime? now]) {
+    _formState = _formState.copyWith(
+      timeUpdated: now,
+      timeCreated: _formState.timeCreated ?? now,
+    );
+    _formState = FormStateModel();
+    notifyListeners();
+  }
+
+  void showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  String getPriorityId(String priorityName) {
+    switch (priorityName) {
+      case 'Normal':
+        return '1';
+      case 'Medium':
+        return '2';
+      case 'High':
+        return '3';
+      default:
+        return '1';
+    }
+  }
 }
 
 const priorityColors = {
@@ -107,3 +135,8 @@ const priorityColors = {
 final formStateProvider = ChangeNotifierProvider<FormStateNotifier>((ref) {
   return FormStateNotifier(ref);
 });
+
+enum FormAction {
+  ADD,
+  EDIT,
+}

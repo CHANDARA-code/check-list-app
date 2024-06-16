@@ -1,4 +1,5 @@
 import 'package:check_list_app/model/task_model/task_model.dart';
+import 'package:check_list_app/notifier/form/form_state_notifier.dart';
 import 'package:check_list_app/widget/app_button.dart';
 import 'package:check_list_app/widget/confirm_dialog.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,10 @@ class TaskOptionsDialog extends HookConsumerWidget {
                     backgroundColor: Colors.blue, // Background color
                     foregroundColor: Colors.white, // Text color
                     onPressed: () {
+                      ref
+                          .read(formStateProvider)
+                          .perpuseNavigate(FormAction.EDIT);
+                      ref.read(formStateProvider).populateForm(task);
                       context.push('/details', extra: task);
                       Navigator.of(context).pop();
                     },

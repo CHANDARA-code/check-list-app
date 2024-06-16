@@ -1,3 +1,4 @@
+import 'package:check_list_app/notifier/form/form_state_notifier.dart';
 import 'package:check_list_app/notifier/task/task_notifier.dart';
 import 'package:check_list_app/screens/home/tabs/app_tab.dart';
 import 'package:check_list_app/widget/animat_bottom_sheet.dart';
@@ -13,7 +14,6 @@ class HomeScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tasks = ref.watch(taskProvider).tasks;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Hello! 👋'),
@@ -41,7 +41,11 @@ class HomeScreen extends HookConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.push('/details'),
+        onPressed: () {
+          ref.read(formStateProvider).resetFormState();
+          ref.read(formStateProvider).perpuseNavigate(FormAction.ADD);
+          context.push('/details');
+        },
         child: const Icon(Icons.add),
       ),
     );

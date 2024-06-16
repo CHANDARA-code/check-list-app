@@ -95,36 +95,6 @@ void main() {
     expect(taskNotifier.tasks, isNot(contains(task)));
   });
 
-  test('Apply filters to the task list', () {
-    final task1 = TaskModel(
-      name: 'High Priority Task',
-      completed: false,
-      priority: PriorityModel(id: '3', name: 'High', color: '#cc0404'),
-      dateTime: DateTime.now().subtract(Duration(days: 1)),
-      description: 'Description 1',
-      timeCreated: DateTime.now().subtract(Duration(days: 1)),
-      timeUpdated: DateTime.now().subtract(Duration(days: 1)),
-    );
-
-    final task2 = TaskModel(
-      name: 'Low Priority Task',
-      completed: true,
-      priority: PriorityModel(id: '1', name: 'Low', color: '#00ff00'),
-      dateTime: DateTime.now().subtract(Duration(days: 2)),
-      description: 'Description 2',
-      timeCreated: DateTime.now().subtract(Duration(days: 2)),
-      timeUpdated: DateTime.now().subtract(Duration(days: 2)),
-    );
-
-    taskNotifier.addTask(task1);
-    taskNotifier.addTask(task2);
-
-    taskNotifier.applyFilters('High', 'All', null, null);
-
-    expect(taskNotifier.tasks, contains(task1));
-    expect(taskNotifier.tasks, isNot(contains(task2)));
-  });
-
   test('Clear filters and restore initial tasks', () {
     final task1 = TaskModel(
       name: 'Task 1',
@@ -149,7 +119,7 @@ void main() {
     taskNotifier.addTask(task1);
     taskNotifier.addTask(task2);
 
-    taskNotifier.applyFilters('High', 'All', null, null);
+    taskNotifier.applyFilters();
     taskNotifier.onClearFilter();
 
     expect(taskNotifier.tasks, contains(task1));

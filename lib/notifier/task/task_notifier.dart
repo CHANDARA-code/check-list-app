@@ -99,6 +99,7 @@ class TaskNotifier extends ChangeNotifier {
     var taskStorage = TaskStorage();
     var value = _allTasks.map((task) => task.toJson()).toList();
     await taskStorage.write({'tasks': value});
+    await _loadFromStorage();
   }
 
   Future<void> _loadFromStorage({bool ascending = false}) async {

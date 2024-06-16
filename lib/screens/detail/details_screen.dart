@@ -1,8 +1,9 @@
+import 'package:check_list_app/model/form/form_model.dart';
 import 'package:check_list_app/model/task_model/task_model.dart';
 import 'package:check_list_app/notifier/form/form_state_notifier.dart';
+import 'package:check_list_app/widget/app_dropdown.dart';
 import 'package:check_list_app/widget/app_text_input.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DetailsScreen extends HookConsumerWidget {
@@ -15,17 +16,12 @@ class DetailsScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formStateNotifier = ref.watch(formStateProvider);
     final formState = formStateNotifier.formState;
-
-    useEffect(() {
-      if (originalTask != null && formState.title.isEmpty) {
-        Future.microtask(() => formStateNotifier.populateForm(originalTask!));
-      }
-      return null;
-    }, [originalTask, formState.title]);
-
+    final formAction = formStateNotifier.formAction;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter Form with Riverpod'),
+        title: Text(
+          titleAppBar(formAction),
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -70,15 +66,10 @@ class DetailsScreen extends HookConsumerWidget {
                 ),
               ),
               SizedBox(height: 16.0),
-              DropdownButtonFormField<String>(
+              AppDropDown(
                 value: formState.priority.isEmpty ? null : formState.priority,
-                decoration: InputDecoration(labelText: 'Priority'),
-                items: ['Normal', 'Medium', 'High'].map((String priority) {
-                  return DropdownMenuItem<String>(
-                    value: priority,
-                    child: Text(priority),
-                  );
-                }).toList(),
+                items: ['Normal', 'Medium', 'High'],
+                labelText: 'Priority',
                 onChanged: (newValue) =>
                     ref.read(formStateProvider).updatePriority(newValue!),
                 validator: (value) {
@@ -89,22 +80,27 @@ class DetailsScreen extends HookConsumerWidget {
                 },
               ),
               SizedBox(height: 20),
-              ElevatedButton.icon(
-                icon: Icon(Icons.save),
-                label: Text('Save'),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    if (originalTask != null) {
-                      // Editing an existing task
-                      ref
-                          .read(formStateProvider)
-                          .editTask(context, originalTask!);
-                    } else {
-                      // Creating a new task
-                      ref.read(formStateProvider).saveForm(context);
-                    }
-                  }
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton.icon(
+                    icon: Icon(Icons.save),
+                    label: Text('Save'),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        if (originalTask != null) {
+                          // Editing an existing task
+                          ref
+                              .read(formStateProvider)
+                              .editTask(context, originalTask!);
+                        } else {
+                          // Creating a new task
+                          ref.read(formStateProvider).saveForm(context);
+                        }
+                      }
+                    },
+                  ),
+                ],
               ),
               SizedBox(height: 20),
               if (formState.timeCreated != null)
@@ -116,5 +112,13 @@ class DetailsScreen extends HookConsumerWidget {
         ),
       ),
     );
+  }
+
+  String titleAppBar(FormAction action) {
+    if (action == FormAction.EDIT) {
+      return "Editing";
+    } else {
+      return "Add Task";
+    }
   }
 }
