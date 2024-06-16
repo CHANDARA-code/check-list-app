@@ -6,12 +6,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final taskProvider =
     ChangeNotifierProvider<TaskNotifier>((ref) => TaskNotifier());
-    
+
 class TaskNotifier extends ChangeNotifier {
   List<TaskModel> _tasks = [];
   List<TaskModel> _allTasks = [];
-
+  String _selectedPriority = "All";
+  String _selectedTaskStatus = "All";
   UnmodifiableListView<TaskModel> get tasks => UnmodifiableListView(_tasks);
+  String get selectedPriority => _selectedPriority;
+  String get selectedTaskStatus => _selectedTaskStatus;
 
   TaskNotifier() {
     _initializeTasks();
@@ -55,24 +58,33 @@ class TaskNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void applyFilters(String priority, String status, DateTime? date,
-      DateTimeRange? dateRange) {
+  updateSelectedPriority(String value) {
+    _selectedPriority = value;
+    notifyListeners();
+  }
+
+  updateSelectedTaskStatus(String value) {
+    _selectedTaskStatus = value;
+    notifyListeners();
+  }
+
+  void applyFilters() {
+    final priority = _selectedPriority;
+    final status = _selectedTaskStatus;
     _tasks = [
       for (final t in _allTasks)
         if ((priority == 'All' || t.priority.name == priority) &&
             (status == 'All' ||
                 (status == 'Completed' && t.completed) ||
-                (status == 'Todo' && !t.completed)) &&
-            (date == null || _isSameDay(t.dateTime, date)) &&
-            (dateRange == null ||
-                (t.dateTime.isAfter(dateRange.start) &&
-                    t.dateTime.isBefore(dateRange.end))))
+                (status == 'Todo' && !t.completed)))
           t
     ];
     notifyListeners();
   }
 
   void onClearFilter() {
+    updateSelectedPriority("All");
+    updateSelectedTaskStatus("All");
     _tasks = List.from(_allTasks);
     notifyListeners();
   }
@@ -107,4 +119,3 @@ class TaskNotifier extends ChangeNotifier {
     await _loadFromStorage();
   }
 }
-

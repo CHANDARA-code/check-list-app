@@ -1,9 +1,8 @@
+import 'package:check_list_app/notifier/filter/filter_notifier.dart';
 import 'package:check_list_app/notifier/task/task_notifier.dart';
 import 'package:check_list_app/widget/app_button.dart';
-import 'package:check_list_app/widget/date_filter_section.dart';
 import 'package:check_list_app/widget/filter_section.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class FilterOptions extends HookConsumerWidget {
@@ -12,10 +11,6 @@ class FilterOptions extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final taskNotifier = ref.watch(taskProvider.notifier);
-    final selectedPriority = useState<String>("null");
-    final selectedTaskStatus = useState<String>("null");
-    final selectedDate = useState<DateTime?>(null);
-    final selectedDateRange = useState<DateTimeRange?>(null);
     const List<String> optionsPriority = [
       'All',
       'Normal',
@@ -51,40 +46,31 @@ class FilterOptions extends HookConsumerWidget {
                   FilterSection(
                     title: 'Priority',
                     options: optionsPriority,
-                    selectedItem: selectedPriority.value,
                     onSelected: (value) {
-                      selectedPriority.value = value!;
+                      taskNotifier.updateSelectedPriority(value!);
                     },
+                    provider: selectedItemProviderTask,
                   ),
                   FilterSection(
                     title: 'Task',
                     options: optionsTask,
-                    selectedItem: selectedTaskStatus.value,
                     onSelected: (value) {
-                      selectedTaskStatus.value = value!;
+                      taskNotifier.updateSelectedTaskStatus(value!);
                     },
+                    provider: selectedItemProviderPriority,
                   ),
-                  DateFilterSection(
-                      selectedDate: selectedDate,
-                      selectedDateRange: selectedDateRange)
                 ],
               ),
             ),
           ),
-          buildButton(taskNotifier, context, selectedPriority,
-              selectedTaskStatus, selectedDate, selectedDateRange),
+          buildButton(taskNotifier, context, ref),
         ],
       ),
     );
   }
 
   Row buildButton(
-      TaskNotifier taskNotifier,
-      BuildContext context,
-      ValueNotifier<String> selectedPriority,
-      ValueNotifier<String> selectedTaskStatus,
-      ValueNotifier<DateTime?> selectedDate,
-      ValueNotifier<DateTimeRange?> selectedDateRange) {
+      TaskNotifier taskNotifier, BuildContext context, WidgetRef ref) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -94,6 +80,8 @@ class FilterOptions extends HookConsumerWidget {
           backgroundColor: Colors.red, // Background color
           foregroundColor: Colors.white, // Text color
           onPressed: () {
+            ref.read(selectedItemProviderTask.notifier).selectItem("All");
+            ref.read(selectedItemProviderPriority.notifier).selectItem("All");
             taskNotifier.onClearFilter();
             Navigator.of(context).pop();
           },
@@ -104,12 +92,7 @@ class FilterOptions extends HookConsumerWidget {
           backgroundColor: Colors.blueGrey, // Background color
           foregroundColor: Colors.white, // Text color
           onPressed: () {
-            taskNotifier.applyFilters(
-              selectedPriority.value,
-              selectedTaskStatus.value,
-              selectedDate.value,
-              selectedDateRange.value,
-            );
+            taskNotifier.applyFilters();
             Navigator.of(context).pop();
           },
         ),
