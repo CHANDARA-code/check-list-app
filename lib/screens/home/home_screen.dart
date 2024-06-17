@@ -1,5 +1,4 @@
 import 'package:check_list_app/notifier/form/form_state_notifier.dart';
-import 'package:check_list_app/notifier/task/task_notifier.dart';
 import 'package:check_list_app/screens/home/tabs/app_tab.dart';
 import 'package:check_list_app/widget/animat_bottom_sheet.dart';
 import 'package:check_list_app/widget/filter_option.dart';
@@ -13,7 +12,6 @@ class HomeScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tasks = ref.watch(taskProvider).tasks;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Hello! 👋'),

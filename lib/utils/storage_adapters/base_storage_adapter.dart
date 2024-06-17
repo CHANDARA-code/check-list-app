@@ -9,7 +9,8 @@ abstract class BaseStorageAdapter {
     required String value,
   });
 
-  writeObject({required String key, required Map<String, dynamic> value}) async {
+  writeObject(
+      {required String key, required Map<String, dynamic> value}) async {
     String json = jsonEncode(value);
     await writeString(key: key, value: json);
   }

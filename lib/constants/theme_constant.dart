@@ -8,11 +8,14 @@ class ThemeConstant {
     _instance ??= ThemeConstant._init();
     return _instance!;
   }
+
   ThemeConstant._init();
   // Light themes
-  ThemeData get materialLightTheme => MaterialTheme(textTheme: GoogleFonts.aBeeZeeTextTheme()).light();
+  ThemeData get materialLightTheme =>
+      MaterialTheme(textTheme: GoogleFonts.aBeeZeeTextTheme()).light();
   // Dark themes
-  ThemeData get materialDarkTheme => MaterialTheme(textTheme: GoogleFonts.aBeeZeeTextTheme()).dark();
+  ThemeData get materialDarkTheme =>
+      MaterialTheme(textTheme: GoogleFonts.aBeeZeeTextTheme()).dark();
 }
 
 class MaterialTheme {
@@ -71,7 +74,6 @@ class MaterialTheme {
       surfaceContainerHighest: Color(0xFFBDBDBD),
     );
   }
-
 
   // Dark color scheme
   static ColorScheme darkScheme() {
@@ -140,7 +142,9 @@ class MaterialTheme {
     return ThemeData(
       colorScheme: colorScheme,
       textTheme: GoogleFonts.aBeeZeeTextTheme(
-        textTheme.apply(bodyColor: colorScheme.onSurface, displayColor: colorScheme.onSurface),
+        textTheme.apply(
+            bodyColor: colorScheme.onSurface,
+            displayColor: colorScheme.onSurface),
       ),
       scaffoldBackgroundColor: colorScheme.background,
       useMaterial3: true,

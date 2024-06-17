@@ -19,7 +19,8 @@ abstract class BaseModel {
     return names;
   }
 
-  Map<String, dynamic> sliceParams(Map<String, dynamic> values, List<String> names) {
+  Map<String, dynamic> sliceParams(
+      Map<String, dynamic> values, List<String> names) {
     Map<String, dynamic> result = {};
     names.forEach((element) {
       result[element] = values[element];

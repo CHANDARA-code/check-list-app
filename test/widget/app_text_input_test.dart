@@ -14,7 +14,9 @@ void main() {
               body: AppTextInput(
                 initialValue: initialValue,
                 labelText: 'Title',
-                onChanged: (value) {},
+                onChanged: (value) {
+                  print(value);
+                },
                 validator: (value) => null,
               ),
             ),
@@ -50,6 +52,59 @@ void main() {
       final textField = find.byType(TextFormField);
       await tester.enterText(textField, 'New Title');
       expect(changedValue, 'New Title');
+    });
+
+    testWidgets('Displays initial value', (WidgetTester tester) async {
+      const initialValue = 'Initial Text';
+      await tester.pumpWidget(
+        ProviderScope(
+          child: MaterialApp(
+            home: Scaffold(
+              body: AppTextInput(
+                initialValue: initialValue,
+                labelText: 'Label',
+                onChanged: (text) {},
+                validator: null,
+              ),
+            ),
+          ),
+        ),
+      );
+
+      final textFormField = find.byType(TextFormField);
+      expect(textFormField, findsOneWidget);
+
+      final textFormFieldWidget = tester.widget<TextFormField>(textFormField);
+      expect(textFormFieldWidget.initialValue, initialValue);
+    });
+
+    testWidgets('Calls onChanged when text is entered',
+        (WidgetTester tester) async {
+      String? changedValue;
+      await tester.pumpWidget(
+        ProviderScope(
+          child: MaterialApp(
+            home: Scaffold(
+              body: AppTextInput(
+                initialValue: '',
+                labelText: 'Label',
+                onChanged: (text) {
+                  changedValue = text;
+                },
+                validator: null,
+              ),
+            ),
+          ),
+        ),
+      );
+
+      final textFormField = find.byType(TextFormField);
+      expect(textFormField, findsOneWidget);
+
+      await tester.enterText(textFormField, 'New Text');
+      await tester.pump();
+
+      expect(changedValue, 'New Text');
     });
   });
 }

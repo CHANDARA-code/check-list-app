@@ -36,7 +36,7 @@ class DateFilterSection extends StatelessWidget {
               );
               if (pickedDate != null) {
                 selectedDate.value = pickedDate;
-                selectedDateRange.value = null; // Clear date range if a single date is picked
+                selectedDateRange.value = null;
               }
             },
           ),
@@ -56,7 +56,7 @@ class DateFilterSection extends StatelessWidget {
               );
               if (pickedDateRange != null) {
                 selectedDateRange.value = pickedDateRange;
-                selectedDate.value = null; // Clear single date if a date range is picked
+                selectedDate.value = null;
               }
             },
           ),
