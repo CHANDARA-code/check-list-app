@@ -14,7 +14,7 @@ flavors:
       bundleId: com.example.checkListApp.dev
   prod:
     app:
-      name: "MyApp Prod"
+      name: "Check List"
       icon: "assets/icons/app_icon_prod.png"
     android:
       applicationId: com.example.check_list_app.prod
