@@ -1,1 +1,2 @@
-A short description of your app.
+Check List is a task management app that allows you to create, read, update, and delete tasks, 
+saving them locally on your device. With its simple interface, you can easily manage your to-do list and stay productive.

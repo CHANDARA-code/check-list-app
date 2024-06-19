@@ -12,7 +12,7 @@ platform :android do
   lane :deploy do
     supply(
       json_key: "fastlane/goggle-service-account.json",         # Path to your JSON key file
-      package_name: "com.your.package.name",      # Your app's package name
+      package_name: "com.check_list_app",      # Your app's package name
       track: "production",                        # The track to upload to (e.g., alpha, beta, production)
       skip_upload_apk: false,                     # Set to true if you don't want to upload the APK
       skip_upload_aab: false,                     # Set to true if you don't want to upload the AAB
