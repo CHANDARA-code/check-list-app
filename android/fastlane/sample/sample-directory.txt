@@ -1,0 +1,41 @@
+your-flutter-project/
+├── android/
+│   ├── app/
+│   ├── build.gradle
+│   ├── fastlane/
+│   │   ├── Fastfile
+│   │   ├── Appfile
+│   │   ├── metadata/
+│   │   │   ├── android/
+│   │   │   │   ├── en-US/
+│   │   │   │   │   ├── title.txt
+│   │   │   │   │   ├── short_description.txt
+│   │   │   │   │   ├── full_description.txt
+│   │   │   │   │   ├── images/
+│   │   │   │   │   │   ├── icon.png
+│   │   │   │   │   │   ├── featureGraphic.png
+│   │   │   │   │   │   ├── phoneScreenshots/
+│   │   │   │   │   │   │   ├── phoneScreenshot1.png
+│   │   │   │   │   │   │   ├── phoneScreenshot2.png
+│   │   │   │   │   │   │   ├── ...
+│   │   │   │   │   │   ├── sevenInchScreenshots/
+│   │   │   │   │   │   │   ├── tabletScreenshot1.png
+│   │   │   │   │   │   │   ├── ...
+│   │   │   │   │   │   ├── tenInchScreenshots/
+│   │   │   │   │   │   │   ├── tabletScreenshot1.png
+│   │   │   │   │   │   │   ├── ...
+│   │   │   │   │   │   ├── tvScreenshots/
+│   │   │   │   │   │   │   ├── tvScreenshot1.png
+│   │   │   │   │   │   │   ├── ...
+│   │   │   │   │   │   ├── wearScreenshots/
+│   │   │   │   │   │   │   ├── wearScreenshot1.png
+│   │   │   │   │   │   │   ├── ...
+│   │   │   ├── changelog.txt
+│   │   │   ├── privacy_policy.txt
+│   │   ├── goggle-service-account.json
+│   ├── gradle/
+│   ├── build.gradle
+│   ├── ...
+├── lib/
+├── pubspec.yaml
+├── ...

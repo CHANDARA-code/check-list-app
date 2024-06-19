@@ -1,0 +1,31 @@
+default_platform(:android)
+
+platform :android do
+  desc "Validate Google Play Store JSON key"
+  lane :validate_key do
+    validate_play_store_json_key(
+      json_key: "fastlane/goggle-service-account.json"  # Path to your JSON key file
+    )
+  end
+
+  desc "Deploy a new version to the Google Play Console"
+  lane :deploy do
+    supply(
+      json_key: "fastlane/goggle-service-account.json",         # Path to your JSON key file
+      package_name: "com.your.package.name",      # Your app's package name
+      track: "production",                        # The track to upload to (e.g., alpha, beta, production)
+      skip_upload_apk: false,                     # Set to true if you don't want to upload the APK
+      skip_upload_aab: false,                     # Set to true if you don't want to upload the AAB
+      skip_upload_metadata: false,                # Set to true if you don't want to upload metadata
+      skip_upload_images: false,                  # Set to true if you don't want to upload images
+      skip_upload_screenshots: false              # Set to true if you don't want to upload screenshots
+    )
+  end
+end
+
+
+# To Validate json_key is valid 
+
+# >> fastlane android validate_key
+
+# To Validate json_key is valid 
