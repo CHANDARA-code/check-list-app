@@ -9,23 +9,102 @@ platform :android do
   end
 
   desc "Deploy a new version to the Google Play Console"
-  lane :deploy do
+  lane :deploy_create do
     supply(
-      json_key: "fastlane/goggle-service-account.json",         # Path to your JSON key file
-      package_name: "com.check_list_app",      # Your app's package name
-      track: "production",                        # The track to upload to (e.g., alpha, beta, production)
-      skip_upload_apk: false,                     # Set to true if you don't want to upload the APK
-      skip_upload_aab: false,                     # Set to true if you don't want to upload the AAB
-      skip_upload_metadata: false,                # Set to true if you don't want to upload metadata
-      skip_upload_images: false,                  # Set to true if you don't want to upload images
-      skip_upload_screenshots: false              # Set to true if you don't want to upload screenshots
+      json_key: "fastlane/goggle-service-account.json",   # Path to your JSON key file
+      package_name: "com.check_list_app",   # Your app's package name
+      track: "production",                  # The track to upload to (e.g., alpha, beta, production)
+      skip_upload_apk: false,               # Set to true if you don't want to upload the APK
+      skip_upload_aab: false,               # Set to true if you don't want to upload the AAB
+      skip_upload_metadata: false,          # Set to true if you don't want to upload metadata
+      skip_upload_images: false,            # Set to true if you don't want to upload images
+      skip_upload_screenshots: false        # Set to true if you don't want to upload screenshots
+    )
+  end
+
+  desc "Bump version code"
+  lane :bump_version_code do
+    version_code = android_get_version_code(
+      app_project_dir: "app"
+    )
+    new_version_code = version_code + 1
+    android_set_version_code(
+      app_project_dir: "app",
+      version_code: new_version_code
+    )
+  end
+
+  desc "Bump version name"
+  lane :bump_version_name do |options|
+    new_version_name = options[:version_name]
+    android_set_version_name(
+      app_project_dir: "app",
+      version_name: new_version_name
+    )
+  end
+
+  desc "Notify Slack"
+  lane :notify_slack do |options|
+    slack(
+      message: options[:message],
+      slack_url: "your-slack-webhook-url"
+    )
+  end
+
+  before_all do
+    notify_slack(message: "Starting deployment process")
+  end
+
+  after_all do
+    notify_slack(message: "Successfully deployed a new version!")
+  end
+
+  error do |lane, exception|
+    notify_slack(message: "Error deploying version: #{exception.message}")
+  end
+
+  desc "Generate changelog"
+  lane :generate_changelog do
+    sh "git log --pretty=format:'* %s' $(git describe --tags --abbrev=0)..HEAD > fastlane/metadata/android/en-US/changelogs/release.txt"
+  end
+
+  desc "Deploy to Firebase App Distribution"
+  lane :firebase_distribution do
+    gradle(task: "assembleRelease")
+    firebase_app_distribution(
+      app: "your_firebase_app_id",
+      testers: "testers@example.com",
+      release_notes_file: "fastlane/metadata/android/en-US/changelogs/release.txt"
+    )
+  end
+
+  desc "Deploy staging build"
+  lane :deploy_staging do
+    gradle(task: "assembleStagingRelease")
+    supply(
+      json_key: "fastlane/goggle-service-account.json",
+      package_name: "com.check_list_app",
+      track: "beta",
+      skip_upload_apk: false,
+      skip_upload_aab: false,
+      skip_upload_metadata: false,
+      skip_upload_images: false,
+      skip_upload_screenshots: false
+    )
+  end
+
+  desc "Deploy production build"
+  lane :deploy_production do
+    gradle(task: "assembleProdRelease")
+    supply(
+      json_key: "fastlane/goggle-service-account.json",
+      package_name: "com.check_list_app",
+      track: "production",
+      skip_upload_apk: false,
+      skip_upload_aab: false,
+      skip_upload_metadata: false,
+      skip_upload_images: false,
+      skip_upload_screenshots: false
     )
   end
 end
-
-
-# To Validate json_key is valid 
-
-# >> fastlane android validate_key
-
-# To Validate json_key is valid 

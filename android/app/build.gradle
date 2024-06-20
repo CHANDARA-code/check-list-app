@@ -78,11 +78,32 @@ android {
         versionName flutterVersionName
     }
 
-    buildTypes {
+    signingConfigs {
+        debug {
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE_DEBUG')) {
+                storeFile file(MYAPP_UPLOAD_STORE_FILE_DEBUG)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD_DEBUG
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS_DEBUG
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD_DEBUG
+            }
+        }
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE_RELEASE')) {
+                storeFile file(MYAPP_UPLOAD_STORE_FILE_RELEASE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD_RELEASE
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS_RELEASE
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD_RELEASE
+            }
+        }
+    }
+    buildTypes {
+        debug {
             signingConfig signingConfigs.debug
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
