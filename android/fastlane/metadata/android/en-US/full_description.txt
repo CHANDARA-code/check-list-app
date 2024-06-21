@@ -1,0 +1,14 @@
+Check List is a simple yet powerful task management application designed to help you keep track of your daily tasks and boost your productivity. With Check List, you can easily create, read, update, and delete tasks, ensuring you stay organized and on top of your to-do list. The app provides a clean and intuitive interface that makes task management straightforward and efficient.
+
+Key Features:
+
+- Task Management: Create tasks with detailed descriptions and manage them effortlessly.
+
+- Local Storage: Save your tasks locally on your device, ensuring quick access and security without needing an internet connection.
+
+- Edit and Delete Tasks: Update task details as your priorities change and remove tasks once they are completed.
+
+- Simple and Intuitive Interface: Navigate through your tasks with ease and focus on what matters most.
+
+Check List is the perfect tool for anyone looking to keep their daily tasks organized without the need for 
+complex features or internet connectivity. Stay focused and efficient with Check List.
